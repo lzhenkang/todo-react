@@ -1,23 +1,6 @@
 import React from 'react';
 import { hot } from 'react-hot-loader';
 
-// import Form from './components/form/form';
-
-class Mapper extends React.Component {
-  render() {
-        // console.log("hi");
-        console.log(this.props.mapper);
-        let mapped = this.props.mapper.map(entry =>{
-            return <div>{entry}</div>
-        })
-    return(
-      <div>
-        {mapped}
-      </div>
-    );
-  }
-}
-
 class App extends React.Component {
     constructor(){
       super()
@@ -28,6 +11,24 @@ class App extends React.Component {
       }
     }
 
+    // mapList(){
+    //     console.log("Mapping List")
+    //     let mapped = this.state.toDo.map((entry, index) =>{
+    //         return (<div><div>{index + 1}. {entry}</div>
+    //         <button onClick={() => {this.deleteEntry()}}>delete</button></div>)
+    //     })
+    //     console.log("below is mapped")
+    //     console.log(mapped)
+    // }
+
+    deleteEntry(index){
+        console.log("clicking delete");
+        // this.state.toDo.push(this.state.word)
+        this.state.toDo.splice(index, 1)
+        // console.log(this.state.toDo)
+        this.setState({toDo:this.state.toDo});
+    }
+
     changeHandler(event){
         this.setState({word:event.target.value});
         console.log("change", event.target.value);
@@ -36,18 +37,25 @@ class App extends React.Component {
     clickHandler(){
         console.log("clicking");
         this.state.toDo.push(this.state.word)
+        // this.mapList()
         // console.log(this.state.toDo)
         this.setState({toDo:this.state.toDo});
     }
 
     render() {
         console.log("rendering");
+
+        let mapped = this.state.toDo.map((entry, index) =>{
+            return (<div><div>{index + 1}. {entry}</div>
+            <button onClick={() => {this.deleteEntry(index)}}>delete</button></div>)
+        })
+
         return (
           <div className="item">
-            <div>{this.state.word}</div>
             <div><input onChange={(event) =>{this.changeHandler(event);}} value={this.state.word}/></div>
             <button onClick={() => {this.clickHandler()}}>Submit</button>
-            <div><Mapper mapper = {this.state.toDo}/></div>
+{/*            <div><Mapper mapper = {this.state.toDo}/></div>*/}
+            <div>{mapped}</div>
           </div>
         );
     }
